@@ -1,0 +1,11 @@
+# This is a configuration file for a Twitter app
+
+# A Twitter app requires four things for authentication,
+# all strings.
+
+{
+ "consumer_key": < add yours here, in quotes >,
+ "consumer_secret": < add yours here, in quotes >,
+ "access_token": < add yours here, in quotes >,
+ "access_token_secret": < add yours here, in quotes >,
+}
