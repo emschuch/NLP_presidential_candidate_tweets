@@ -52,7 +52,7 @@ class TweetApp(server.App):
     def __init__(self):
         # caches the data to avoid multiple calls to the twitter API
         self.data_cache = None
-        self.today = date.strftime(datetime.datetime.now(), format='%m/%d/%Y, %H:%M')
+        self.today_cache = None
 
 
     title = 'Tweets of Presidential Candidates'
@@ -106,6 +106,8 @@ class TweetApp(server.App):
             dfs['Subjectivity'] = [sent[1] for sent in sentiments]
             modal = [modality(Sentence(parse(tweet, lemmata=True))) for tweet in dfs['Tweet']]
             dfs['Certainty'] = modal
+            today = date.strftime(datetime.datetime.now(), format='%m/%d/%Y, %H:%M')
+            self.today_cache = today
             self.data_cache = dfs
         return self.data_cache
 
@@ -120,7 +122,7 @@ class TweetApp(server.App):
         plt_obj = df.plot(kind='barh', legend=False)
         plt_obj.set_ylabel('')
         plt_obj.set_xlabel('Average ' + col)
-        plt_obj.set_title('20 Most Recent Tweets (' + self.today + ' ' + tz + ')')
+        plt_obj.set_title('20 Most Recent Tweets (' + self.today_cache + ' ' + tz + ')')
         # set xlims for specific columns
         if col == 'Polarity' or col == 'Certainty':
             x1, x2, y1, y2 = plt_obj.axis()
