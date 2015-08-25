@@ -53,6 +53,7 @@ class TweetApp(server.App):
         # caches the data to avoid multiple calls to the twitter API
         self.data_cache = None
         self.today_cache = None
+        self.now_cache = None
 
 
     title = 'Tweets of Presidential Candidates'
@@ -85,6 +86,11 @@ class TweetApp(server.App):
 
 
     def getData(self, params):
+        if self.now_cache is not None:
+            if (self.now_cache + datetime.timedelta(minutes=5)) < datetime.datetime.now():
+                self.data_cache = None
+                self.today_cache = None
+                self.now_cache = None
         if self.data_cache is None:
             tweets = []
             for cand in candidates:
@@ -107,8 +113,10 @@ class TweetApp(server.App):
             modal = [modality(Sentence(parse(tweet, lemmata=True))) for tweet in dfs['Tweet']]
             dfs['Certainty'] = modal
             today = date.strftime(datetime.datetime.now(), format='%m/%d/%Y, %H:%M')
-            self.today_cache = today
+            now = datetime.datetime.now()
             self.data_cache = dfs
+            self.today_cache = today
+            self.now_cache = now
         return self.data_cache
 
 
@@ -129,8 +137,7 @@ class TweetApp(server.App):
             plt_obj.axis((x1, 1.0, y1, y2))
         elif col == 'Subjectivity':
             plt_obj.set_xlim([0, 1.0])
-        fig = plt_obj.get_figure()
-        return fig
+        return plt_obj
 
 
 if __name__ == '__main__':
