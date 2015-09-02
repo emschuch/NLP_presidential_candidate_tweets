@@ -8,12 +8,13 @@ Find out more about Spyre [here](https://github.com/adamhajari/spyre).
 
 This was my fourth project for the Metis data science bootcamp.
 
-Technologies used:
+####Technologies used:
 * Python
 * NLP (natural language processing) for sentiment analysis
 * Spyre
 * Amazon Web Services
 * tmux
+
 
 In addition, I explored other technologies which didn't make it into the final implementation of the app including:
 * MongoDB
